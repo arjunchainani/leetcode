@@ -36,10 +36,6 @@ class Solution(object):
             numGoodNodes[0] += 1
             maxPathElement = root.val
 
-        # base cases
-        if root.left is None and root.right is None:
-            return
-
         if root.left is not None:
             self.findNumGoodNodes(root.left, maxPathElement, numGoodNodes)
         
