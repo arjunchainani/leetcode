@@ -4,6 +4,11 @@
 #
 # option 3: using prefix and suffix products -> O(n)
 # result[i] = prefix[i - 1] * suffix[i + 1] (1 if out of range)
+# 
+# option 4: O(1) space complexity
+# you don't technically need extra arrays for prefix and suffix, you can just store them in result
+# it's a weird trick, in the first pass of result you calculate prefix, then you pass backwards
+# and multiply by the suffix element two elements ahead 
 
 class Solution(object):
     def productExceptSelf(self, nums):
@@ -11,24 +16,43 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[int]
         """
+        # solution 4 implementation
         result = [0] * len(nums)
-        prefix = [0] * len(nums)
-        suffix = [0] * len(nums)
 
-        # loop 1: compute prefix product
-        prefix[0] = nums[0]
-        for i in range(1, len(nums)):
-            prefix[i] = prefix[i - 1] * nums[i]
+        # forward pass: computing the (exclusive) prefix
+        prefix = 1
+        for i in range(len(nums)):
+            result[i] = prefix
+            prefix *= nums[i] 
 
-        # loop 2: compute suffix product
-        suffix[-1] = nums[-1]
-        for i in range(2, len(nums) + 1):
-            suffix[-i] = suffix[-(i - 1)] * nums[-i]
-        
-        # loop 3: compute result
-        result[0] = 1 * suffix[1]
-        result[-1] = prefix[-2] * 1
-        for i in range(1, len(result) - 1):
-            result[i] = prefix[i - 1] * suffix[i + 1]
-        
+        # backward pass: multiplying by suffix
+        # last element stays the same
+        current_suffix = 1
+        for i in range(1, len(nums) + 1):
+            result[-i] *= current_suffix
+            current_suffix *= nums[-i]
+
         return result
+
+        # # solution 3 implementation
+        # result = [0] * len(nums)
+        # prefix = [0] * len(nums)
+        # suffix = [0] * len(nums)
+
+        # # loop 1: compute prefix product
+        # prefix[0] = nums[0]
+        # for i in range(1, len(nums)):
+        #     prefix[i] = prefix[i - 1] * nums[i]
+
+        # # loop 2: compute suffix product
+        # suffix[-1] = nums[-1]
+        # for i in range(2, len(nums) + 1):
+        #     suffix[-i] = suffix[-(i - 1)] * nums[-i]
+        
+        # # loop 3: compute result
+        # result[0] = 1 * suffix[1]
+        # result[-1] = prefix[-2] * 1
+        # for i in range(1, len(result) - 1):
+        #     result[i] = prefix[i - 1] * suffix[i + 1]
+        
+        # return result
