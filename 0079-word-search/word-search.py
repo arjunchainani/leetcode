@@ -51,6 +51,10 @@ class Solution(object):
             board[position[1]][position[0]] = current_char
             return False
 
+        # optimization: if last letter is rarer than first letter, search for the word in reverse (reduces the number of possible paths)
+        if board_count[word[-1]] < board_count[word[0]]:
+            word = word[::-1]
+
         for i in range(len(board)):
             for j in range(len(board[0])):
                 if dfs((j, i), 0):
