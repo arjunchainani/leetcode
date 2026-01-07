@@ -21,8 +21,8 @@ class Solution(object):
             stack.append(i)
         
         # for whatever's left in the stack, they don't have any matches -> map to -1
-        for index in stack:
-            next_greater_element[nums2[index]] = -1
+        while stack:
+            next_greater_element[nums2[stack.pop()]] = -1
         
         # use the hash map as a lookup table to construct the answer in linear time
         for i in range(len(nums1)):
