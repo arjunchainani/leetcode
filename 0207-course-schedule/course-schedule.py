@@ -23,9 +23,11 @@ class Solution(object):
             courses[prereq[0]].prereqs.add(prereq[1])
         
         # traverse the graph using DFS to look for long-range cycles
+        done = set()
         for course in courses:
+            if course in done:
+                continue
             visited = set()
-            done = set()
             if self.traverseGraph(course, visited, done, courses) == False:
                 return False
         
