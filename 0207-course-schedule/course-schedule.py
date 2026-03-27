@@ -35,12 +35,7 @@ class Solution(object):
         # base case 1
         if root in visited:
             return False
-        
-        # base case 2
-        if len(root.prereqs) == 0:
-            done.add(root)
-            return True
-        
+                
         visited.add(root)
 
         for neighbor in root.prereqs:
@@ -53,4 +48,5 @@ class Solution(object):
             else:
                 return False
         
+        done.add(root)
         return True
